@@ -60,7 +60,7 @@ _F-statistic:_ 12.12 with a corresponding p-value of 0.000778, which confirms th
 
 ## A Graphic Model
 
-![Visualization of linear regression between the number of Olympic medals and the GDP of countries](Documents/2024_Olympics/000016.png)
+![Visualization of linear regression between the number of Olympic medals and the GDP of countries](https://github.com/chriskorol/2024_Olympics/blob/main/000016.png)
 
 ## What I Learned
 
