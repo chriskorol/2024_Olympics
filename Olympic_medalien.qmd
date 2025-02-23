@@ -1,0 +1,123 @@
+---
+title: "Olympics"
+author: "Krystyna Korol (THWS Business School)"
+format: pdf
+editor: visual
+fig-cap-location: top
+echo: false
+---
+
+```{r}
+# Setting the working directory
+setwd("D:/THWS/Okonometrie")
+
+# Download the necessary packages
+library(readr)  
+
+# Downloading data
+data <- read_csv("D:/THWS/Okonometrie/olympics-economics.csv")
+
+# View the first lines of the dataset
+head(data)
+
+# Visualizing a table in RStudio
+View(data)
+
+
+```
+
+```{r}
+# Building a linear regression
+model <- lm(total ~ gdp, data = data)
+
+# View regression results
+summary(model)
+```
+
+```{r}
+# Model coefficients
+coeff <- coef(summary(model))
+
+# Calculating the t-value
+t_value <- coeff[2, "Estimate"] / coeff[2, "Std. Error"]
+
+# Print t-value and p-value
+t_value
+coeff[2, "Pr(>|t|)"]
+```
+
+```{r}
+
+# Disable scientific notation globally
+options(scipen = 999)
+
+# Building the graph with normal numbers on the x-axis
+plot(data$gdp, data$total, 
+     main = "GDP vs Total Medals",
+     xlab = "GDP (USD)", 
+     ylab = "Total Medals",
+     pch = 19, 
+     col = "blue")
+
+# Adding a regression line
+abline(model, col = "red", lwd = 2)
+
+grid()
+box()
+```
+
+```{r}
+
+# Creating a GDP per capita variable
+data$gdp_per_capita <- data$gdp / data$population
+
+# View result
+head(data)
+```
+
+```{r}
+# Linear regression with GDP per capita
+model_per_capita <- lm(total ~ gdp_per_capita, data = data)
+
+# View model results
+summary(model_per_capita)
+```
+
+```{r}
+
+# Checking t-value and p-value
+coeff <- coef(summary(model_per_capita))
+
+# Print the t-value for gdp_per_capita
+t_value <- coeff["gdp_per_capita", "t value"]
+
+# Derivation of p-value for gdp_per_capita
+p_value <- coeff["gdp_per_capita", "Pr(>|t|)"]
+
+# Print results
+cat("t-value:", t_value, "\n")
+cat("p-value:", p_value, "\n")
+```
+
+```{r}
+
+# Building 
+plot(data$gdp_per_capita, data$total, 
+     main = "GDP per Capita vs Total Medals",
+     xlab = "GDP per Capita (USD)", 
+     ylab = "Total Medals",
+     pch = 19, 
+     col = "blue",
+     xaxt = "n")  # Disable default x-axis labels
+
+# Custom x-axis with normal numbers
+axis(1, at = pretty(data$gdp_per_capita), labels = pretty(data$gdp_per_capita))
+
+# Adding a regression line
+abline(model_per_capita, col = "red", lwd = 2)
+
+# Enhancing the plot aesthetics
+grid()
+box()
+
+```
